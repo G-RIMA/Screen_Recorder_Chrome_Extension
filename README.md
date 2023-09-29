@@ -1,4 +1,4 @@
-## Screen Recorder Backend
+# Screen Recorder Backend
 
 This is the backend component of the Screen Recorder Chrome Extentions project. It receives video uploads, saves them to disk, provides a web page for video play.
 
