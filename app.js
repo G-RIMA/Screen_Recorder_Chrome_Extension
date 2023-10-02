@@ -2,6 +2,9 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const http = require("http");
+const WebSocket = require("ws");
+const amqp = require("amqplib");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +21,26 @@ const upload = multer({ storage: storage });
 
 // Serve static files (HTML, CSS, etc.)
 app.use(express.static(path.join(__dirname, "public")));
+
+// Define WebSocket server
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+// RabbitMQ connection
+async function setupRabbitMQ() {
+  const connection = await amqp.connect("amqp://localhost");
+  const channel = await connection.createChannel();
+  const queue = "audio_chunks";
+
+  await channel.assertQueue(queue, { durable: false });
+
+  wss.on("connection", (ws) => {
+    ws.on("message", async (message) => {
+      // Send audio chunks to RabbitMQ
+      channel.sendToQueue(queue, Buffer.from(message));
+    });
+  });
+}
 
 // Define an endpoint to receive the video file
 app.post("/upload", upload.single("video"), (req, res) => {
@@ -54,7 +77,8 @@ app.get("/play/:videoFileName", (req, res) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
+// Start the server and setup RabbitMQ
+server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  setupRabbitMQ();
 });
