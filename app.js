@@ -69,7 +69,7 @@ async function setupRabbitMQ() {
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
     // Handle the uploaded video file here and save it to disk
-    // ...
+    // For example, you can perform any additional processing or validation here
 
     // Create a new video document and save it to MongoDB
     const newVideo = new Video({
