@@ -1,6 +1,6 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
-const mongoURI =
-  "mongodb+srv://<username>:<password>@cluster.mongodb.net/<databaseName>";
+const mongoURI = process.env.DATABASE_URL;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
