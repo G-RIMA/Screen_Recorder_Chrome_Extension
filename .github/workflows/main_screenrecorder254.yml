@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'screenrecorder254'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0953298C26F0406C84ED3F39ACFFA564 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AA6002E9627B42B3973AAA30AEB6B42A }}
           package: .
