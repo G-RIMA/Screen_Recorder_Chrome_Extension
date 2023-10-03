@@ -87,7 +87,9 @@ app.post("/upload", upload.single("video"), async (req, res) => {
   }
 });
 
-// Rest of your routes and code...
+app.get("/", (req, res) => {
+  res.send("Server is listening at home");
+});
 
 // Start the server and setup RabbitMQ
 server.listen(port, () => {
