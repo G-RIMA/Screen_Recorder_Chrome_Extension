@@ -7,7 +7,6 @@ const WebSocket = require("ws");
 const amqp = require("amqplib");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const uploads = require("./uploads");
 
 // Set up MongoDB connection
 mongoose.connect(process.env.DATABASE_URL, {
@@ -35,7 +34,7 @@ const port = process.env.PORT || 3000;
 
 // Set up multer for handling file uploads
 const storage = multer.diskStorage({
-  destination: uploads,
+  destination: "uploads",
   filename: (req, file, cb) => {
     cb(null, file.originalname); // Use the original file name
   },
